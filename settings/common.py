@@ -21,10 +21,11 @@ class Common(Configuration):
 
 
         # Third party apps
-        'rest_framework',            # utilities for rest apis
-        'rest_framework.authtoken',  # token authentication
-        'django_rq',                 # asynchronous queuing
-        'versatileimagefield',       # image manipulation
+        'rest_framework',                  # utilities for rest apis
+        'rest_framework.authtoken',        # token authentication
+        'django_rq',                       # asynchronous queuing
+        'behaviors.apps.BehaviorsConfig',  # django behaviors
+        'versatileimagefield',             # image manipulation
 
         # Your apps
         'linkanywhere.apps.links',
