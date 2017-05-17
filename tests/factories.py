@@ -17,3 +17,15 @@ class UserFactory(factory.django.DjangoModelFactory):
     last_name = factory.Faker('last_name')
     is_active = True
     is_staff = False
+
+
+class LinkFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = 'links.Link'
+        django_get_or_create = ('id', )
+
+    id = factory.Sequence(lambda n: uuid.uuid4())
+    title = factory.Sequence(lambda n: 'title{}'.format(n))
+    url = factory.Faker('url')
+    description = factory.Sequence(lambda n: 'description{}'.format(n))
