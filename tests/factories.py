@@ -19,6 +19,15 @@ class UserFactory(factory.django.DjangoModelFactory):
     is_staff = False
 
 
+class CategoryFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = 'links.Category'
+        django_get_or_create = ('name', )
+
+    name = factory.Sequence(lambda n: 'name{}'.format(n))
+
+
 class LinkFactory(factory.django.DjangoModelFactory):
 
     class Meta:
