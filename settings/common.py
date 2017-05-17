@@ -27,6 +27,7 @@ class Common(Configuration):
         'versatileimagefield',       # image manipulation
 
         # Your apps
+        'linkanywhere.apps.links',
         'linkanywhere.apps.users',
 
     )
