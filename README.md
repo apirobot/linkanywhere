@@ -1,7 +1,7 @@
 #linkanywhere-back
 [![Build Status](https://travis-ci.org/apirobot/linkanywhere-back.svg?branch=master)](https://travis-ci.org/apirobot/linkanywhere-back)
 
-Links to other resources. Check out the project's [documentation](http://apirobot.github.io/linkanywhere-back/).
+Links to other resources.
 
 # Prerequisites
 - [virtualenv](https://virtualenv.pypa.io/en/latest/)
