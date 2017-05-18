@@ -11,7 +11,7 @@ class Local(Common):
 
     # Testing
     INSTALLED_APPS = Common.INSTALLED_APPS
-    INSTALLED_APPS += ('django_nose', 'django_extensions')
+    INSTALLED_APPS += ('django_nose', 'django_extensions', 'autofixture')
     TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
     # Mail
