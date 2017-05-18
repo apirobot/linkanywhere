@@ -38,3 +38,4 @@ class LinkFactory(factory.django.DjangoModelFactory):
     title = factory.Sequence(lambda n: 'title{}'.format(n))
     url = factory.Faker('url')
     description = factory.Sequence(lambda n: 'description{}'.format(n))
+    category = factory.SubFactory(CategoryFactory)
