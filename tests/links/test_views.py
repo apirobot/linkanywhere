@@ -1,5 +1,7 @@
 import pytest
 
+from nose.tools import eq_
+
 from django.core.urlresolvers import reverse
 
 from .. import factories as f
@@ -15,9 +17,9 @@ def test_list_links(client):
     response = client.get(url)
     response_content = response.data
 
-    assert response.status_code == 200
-    assert len(response_content) == 2
-    assert response_content[0]['id'] == str(link_1.id)
+    eq_(response.status_code, 200)
+    eq_(len(response_content), 2)
+    eq_(response_content[0]['id'], str(link_1.id))
 
 
 def test_list_categories(client):
@@ -28,6 +30,6 @@ def test_list_categories(client):
     response = client.get(url)
     response_content = response.data
 
-    assert response.status_code == 200
-    assert len(response_content) == 2
-    assert response_content[0]['id'] == str(category_1.id)
+    eq_(response.status_code, 200)
+    eq_(len(response_content), 2)
+    eq_(response_content[0]['id'], str(category_1.id))

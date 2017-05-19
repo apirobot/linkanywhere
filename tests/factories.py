@@ -30,6 +30,17 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     slug = factory.Sequence(lambda n: 'name{}'.format(n))
 
 
+class TagFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = 'links.Tag'
+        django_get_or_create = ('name', )
+
+    id = factory.Sequence(lambda n: uuid.uuid4())
+    name = factory.Sequence(lambda n: 'name{}'.format(n))
+    slug = factory.Sequence(lambda n: 'name{}'.format(n))
+
+
 class LinkFactory(factory.django.DjangoModelFactory):
 
     class Meta:
@@ -41,3 +52,14 @@ class LinkFactory(factory.django.DjangoModelFactory):
     url = factory.Faker('url')
     description = factory.Sequence(lambda n: 'description{}'.format(n))
     category = factory.SubFactory(CategoryFactory)
+
+    @factory.post_generation
+    def tags(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of tags were passed in, use them
+            for tag in extracted:
+                self.tags.add(tag)

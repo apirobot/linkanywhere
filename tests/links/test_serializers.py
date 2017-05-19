@@ -1,11 +1,12 @@
 import pytest
 
+from nose.tools import ok_
+
 from django.forms.models import model_to_dict
 
 from linkanywhere.apps.links.serializers import (
     CategorySerializer, LinkSerializer
 )
-
 from .. import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -23,19 +24,19 @@ def link_data():
 
 def test_category_serializer_with_empty_data():
     serializer = CategorySerializer(data={})
-    assert not serializer.is_valid()
+    ok_(serializer.is_valid() is False)
 
 
 def test_category_serializer_with_valid_data(category_data):
     serializer = CategorySerializer(data=category_data)
-    assert serializer.is_valid()
+    ok_(serializer.is_valid())
 
 
 def test_link_serializer_with_empty_data():
     serializer = LinkSerializer(data={})
-    assert not serializer.is_valid()
+    ok_(serializer.is_valid() is False)
 
 
 def test_link_serializer_with_valid_data(link_data):
     serializer = LinkSerializer(data=link_data)
-    assert serializer.is_valid()
+    ok_(serializer.is_valid())

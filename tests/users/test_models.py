@@ -1,5 +1,7 @@
 import pytest
 
+from nose.tools import eq_
+
 from .. import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -7,4 +9,4 @@ pytestmark = pytest.mark.django_db
 
 def test_user__str__():
     user = f.UserFactory.create()
-    assert user.__str__() == user.username
+    eq_(user.__str__(), user.username)
