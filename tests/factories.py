@@ -25,7 +25,9 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         model = 'links.Category'
         django_get_or_create = ('name', )
 
+    id = factory.Sequence(lambda n: uuid.uuid4())
     name = factory.Sequence(lambda n: 'name{}'.format(n))
+    slug = factory.Sequence(lambda n: 'name{}'.format(n))
 
 
 class LinkFactory(factory.django.DjangoModelFactory):

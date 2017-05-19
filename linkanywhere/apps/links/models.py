@@ -6,7 +6,8 @@ from behaviors.behaviors import Slugged, Timestamped
 
 
 class Category(Slugged, models.Model):
-    name = models.CharField(max_length=60)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
         return self.name

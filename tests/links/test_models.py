@@ -11,7 +11,7 @@ def test_category__str__():
 
 
 def test_category_slug():
-    category = f.CategoryFactory.create(name='Category number 1')
+    category = f.CategoryFactory.create(name='Category number 1', slug=None)
     assert category.slug == 'category-number-1'
 
 
