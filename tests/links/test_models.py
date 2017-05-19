@@ -24,7 +24,7 @@ def test_tag__str__():
 
 
 def test_tag_slug():
-    tag = f.CategoryFactory.create(name='Tag number 1', slug=None)
+    tag = f.TagFactory.create(name='Tag number 1', slug=None)
     eq_(tag.slug, 'tag-number-1')
 
 

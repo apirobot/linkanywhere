@@ -33,3 +33,16 @@ def test_list_categories(client):
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(category_1.id))
+
+
+def test_list_tags(client):
+    tag_1 = f.TagFactory.create()
+    f.TagFactory.create()
+
+    url = reverse('links:tag-list')
+    response = client.get(url)
+    response_content = response.data
+
+    eq_(response.status_code, 200)
+    eq_(len(response_content), 2)
+    eq_(response_content[0]['id'], str(tag_1.id))

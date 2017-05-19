@@ -5,7 +5,7 @@ from nose.tools import ok_
 from django.forms.models import model_to_dict
 
 from linkanywhere.apps.links.serializers import (
-    CategorySerializer, LinkSerializer
+    CategorySerializer, LinkSerializer, TagSerializer
 )
 from .. import factories as f
 
@@ -20,6 +20,11 @@ def category_data():
 @pytest.fixture(scope='function')
 def link_data():
     return model_to_dict(f.LinkFactory.build())
+
+
+@pytest.fixture(scope='function')
+def tag_data():
+    return model_to_dict(f.TagFactory.build())
 
 
 def test_category_serializer_with_empty_data():
@@ -39,4 +44,14 @@ def test_link_serializer_with_empty_data():
 
 def test_link_serializer_with_valid_data(link_data):
     serializer = LinkSerializer(data=link_data)
+    ok_(serializer.is_valid())
+
+
+def test_tag_serializer_with_empty_data():
+    serializer = TagSerializer(data={})
+    ok_(serializer.is_valid() is False)
+
+
+def test_tag_serializer_with_valid_data(tag_data):
+    serializer = TagSerializer(data=tag_data)
     ok_(serializer.is_valid())
