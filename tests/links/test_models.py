@@ -13,19 +13,9 @@ def test_category__str__():
     eq_(category.__str__(), category.name)
 
 
-def test_category_slug():
-    category = f.CategoryFactory.create(name='Category number 1', slug=None)
-    eq_(category.slug, 'category-number-1')
-
-
 def test_tag__str__():
     tag = f.TagFactory.create()
     eq_(tag.__str__(), tag.name)
-
-
-def test_tag_slug():
-    tag = f.TagFactory.create(name='Tag number 1', slug=None)
-    eq_(tag.slug, 'tag-number-1')
 
 
 def test_link__str__():

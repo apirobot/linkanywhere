@@ -17,7 +17,6 @@ def test_create_category(client):
     response = client.post(url, data)
     eq_(response.status_code, 201)
     eq_(response.data['name'], 'Test category')
-    eq_(response.data['slug'], 'test-category')
 
 
 def test_list_links(client):

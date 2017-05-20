@@ -27,7 +27,6 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
     id = factory.Sequence(lambda n: uuid.uuid4())
     name = factory.Sequence(lambda n: 'name{}'.format(n))
-    slug = factory.Sequence(lambda n: 'name{}'.format(n))
 
 
 class TagFactory(factory.django.DjangoModelFactory):
@@ -38,7 +37,6 @@ class TagFactory(factory.django.DjangoModelFactory):
 
     id = factory.Sequence(lambda n: uuid.uuid4())
     name = factory.Sequence(lambda n: 'name{}'.format(n))
-    slug = factory.Sequence(lambda n: 'name{}'.format(n))
 
 
 class LinkFactory(factory.django.DjangoModelFactory):

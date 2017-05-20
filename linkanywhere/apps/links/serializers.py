@@ -9,14 +9,12 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='title'
     )
-    slug = serializers.ReadOnlyField()
 
     class Meta:
         model = Category
         fields = (
             'id',
             'name',
-            'slug',
             'links',
         )
 
@@ -55,6 +53,5 @@ class TagSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'slug',
             'links',
         )

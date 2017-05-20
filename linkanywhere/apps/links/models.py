@@ -2,18 +2,14 @@ import uuid
 
 from django.db import models
 
-from behaviors.behaviors import Slugged, Timestamped
+from behaviors.behaviors import Timestamped
 
 
-class Category(Slugged, models.Model):
+class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
-        return self.name
-
-    @property
-    def slug_source(self):
         return self.name
 
 
@@ -33,13 +29,9 @@ class Link(Timestamped, models.Model):
         return '{0}: {1}'.format(self.title, self.url)
 
 
-class Tag(Slugged, models.Model):
+class Tag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=60)
 
     def __str__(self):
-        return self.name
-
-    @property
-    def slug_source(self):
         return self.name
