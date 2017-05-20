@@ -10,6 +10,16 @@ from .. import factories as f
 pytestmark = pytest.mark.django_db
 
 
+def test_create_category(client):
+    url = reverse('links:category-list')
+    data = {'name': 'Test category'}
+
+    response = client.post(url, data)
+    eq_(response.status_code, 201)
+    eq_(response.data['name'], 'Test category')
+    eq_(response.data['slug'], 'test-category')
+
+
 def test_list_links(client):
     link_1 = f.LinkFactory.create()
     f.LinkFactory.create()

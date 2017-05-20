@@ -5,7 +5,8 @@ from .models import Category, Link, Tag
 from .serializers import CategorySerializer, LinkSerializer, TagSerializer
 
 
-class CategoryViewSet(mixins.ListModelMixin,
+class CategoryViewSet(mixins.CreateModelMixin,
+                      mixins.ListModelMixin,
                       viewsets.GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

@@ -9,6 +9,7 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='title'
     )
+    slug = serializers.ReadOnlyField()
 
     class Meta:
         model = Category
