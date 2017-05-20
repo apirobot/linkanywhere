@@ -1,5 +1,6 @@
 from rest_framework import viewsets, mixins
 
+from .filters import LinkFilter
 from .models import Category, Link, Tag
 from .serializers import CategorySerializer, LinkSerializer, TagSerializer
 
@@ -14,6 +15,7 @@ class LinkViewSet(mixins.ListModelMixin,
                   viewsets.GenericViewSet):
     queryset = Link.objects.all()
     serializer_class = LinkSerializer
+    filter_class = LinkFilter
 
 
 class TagViewSet(mixins.ListModelMixin,
