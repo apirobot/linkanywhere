@@ -19,7 +19,8 @@ class LinkViewSet(mixins.ListModelMixin,
     filter_class = LinkFilter
 
 
-class TagViewSet(mixins.ListModelMixin,
+class TagViewSet(mixins.CreateModelMixin,
+                 mixins.ListModelMixin,
                  viewsets.GenericViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

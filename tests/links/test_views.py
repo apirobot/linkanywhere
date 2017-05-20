@@ -19,6 +19,15 @@ def test_create_category(client):
     eq_(response.data['name'], 'Test category')
 
 
+def test_create_tag(client):
+    url = reverse('links:tag-list')
+    data = {'name': 'Test tag'}
+
+    response = client.post(url, data)
+    eq_(response.status_code, 201)
+    eq_(response.data['name'], 'Test tag')
+
+
 def test_list_links(client):
     link_1 = f.LinkFactory.create()
     f.LinkFactory.create()
