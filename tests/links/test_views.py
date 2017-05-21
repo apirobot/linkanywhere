@@ -26,9 +26,11 @@ def test_create_link(client):
     }
 
     response = client.post(url, data)
+    response_content = response.data
+
     eq_(response.status_code, 201)
-    eq_(response.data['category'], category_1.name)
-    eq_(response.data['tags'], [tag_1.name, tag_2.name])
+    eq_(response_content['category'], category_1.name)
+    eq_(response_content['tags'], [tag_1.name, tag_2.name])
 
 
 def test_create_link_with_not_created_tags(client):
@@ -43,8 +45,10 @@ def test_create_link_with_not_created_tags(client):
         'tags': ['some tag 1', 'some tag 2']
     }
     response = client.post(url, data)
+    response_content = response.data
+
     eq_(response.status_code, 201)
-    eq_(response.data['tags'], ['some tag 1', 'some tag 2'])
+    eq_(response_content['tags'], ['some tag 1', 'some tag 2'])
 
 
 def test_create_category(client):
@@ -52,8 +56,10 @@ def test_create_category(client):
     data = {'name': 'Test category'}
 
     response = client.post(url, data)
+    response_content = response.data
+
     eq_(response.status_code, 201)
-    eq_(response.data['name'], 'Test category')
+    eq_(response_content['name'], 'Test category')
 
 
 def test_create_tag(client):
@@ -61,8 +67,10 @@ def test_create_tag(client):
     data = {'name': 'Test tag'}
 
     response = client.post(url, data)
+    response_content = response.data
+
     eq_(response.status_code, 201)
-    eq_(response.data['name'], 'Test tag')
+    eq_(response_content['name'], 'Test tag')
 
 
 def test_list_links(client):
@@ -71,7 +79,7 @@ def test_list_links(client):
 
     url = reverse('links:link-list')
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
@@ -91,7 +99,7 @@ def test_list_links_filtered_by_category_and_tag(client):
     url = urljoin(reverse('links:link-list'),
                   '?category={}'.format(category_1.name))
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
@@ -101,7 +109,7 @@ def test_list_links_filtered_by_category_and_tag(client):
     url = urljoin(reverse('links:link-list'),
                   '?tag={}'.format(tag_1.name))
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
@@ -111,7 +119,7 @@ def test_list_links_filtered_by_category_and_tag(client):
     url = urljoin(reverse('links:link-list'),
                   '?category={}&tag={}'.format(category_1.name, tag_1.name))
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 1)
@@ -123,7 +131,7 @@ def test_list_categories(client):
 
     url = reverse('links:category-list')
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
@@ -136,14 +144,14 @@ def test_list_tags(client):
 
     url = reverse('links:tag-list')
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(tag_1.id))
 
 
-def test_delete_link(client):
+def test_destroy_link(client):
     category_1 = f.CategoryFactory.create()
     link_1 = f.LinkFactory.create(category=category_1)
 
@@ -155,7 +163,7 @@ def test_delete_link(client):
     eq_(category_1.links.count(), 0)
 
 
-def test_delete_category(client):
+def test_destroy_category(client):
     category_1 = f.CategoryFactory.create()
 
     url = reverse('links:category-detail', kwargs={'pk': category_1.id})
@@ -165,7 +173,7 @@ def test_delete_category(client):
     eq_(Category.objects.count(), 0)
 
 
-def test_delete_tag(client):
+def test_destroy_tag(client):
     tag_1 = f.TagFactory.create()
 
     url = reverse('links:tag-detail', kwargs={'pk': tag_1.id})

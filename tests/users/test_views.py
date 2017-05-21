@@ -14,7 +14,7 @@ def test_list_users(client):
 
     url = reverse('users:user-list')
     response = client.get(url)
-    response_content = response.data
+    response_content = response.data['results']
 
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
