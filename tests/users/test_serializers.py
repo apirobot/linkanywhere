@@ -1,5 +1,4 @@
 import pytest
-
 from nose.tools import ok_
 
 from django.forms.models import model_to_dict

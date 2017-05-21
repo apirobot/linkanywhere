@@ -1,5 +1,4 @@
 import pytest
-
 from nose.tools import eq_
 from django_nose.tools import assert_queryset_equal
 
