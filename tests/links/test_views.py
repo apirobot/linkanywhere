@@ -5,6 +5,7 @@ from nose.tools import eq_
 
 from django.core.urlresolvers import reverse
 
+from linkanywhere.apps.links.models import Category, Link, Tag
 from .. import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -140,3 +141,35 @@ def test_list_tags(client):
     eq_(response.status_code, 200)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(tag_1.id))
+
+
+def test_delete_link(client):
+    category_1 = f.CategoryFactory.create()
+    link_1 = f.LinkFactory.create(category=category_1)
+
+    url = reverse('links:link-detail', kwargs={'pk': link_1.id})
+    response = client.delete(url)
+
+    eq_(response.status_code, 204)
+    eq_(Link.objects.count(), 0)
+    eq_(category_1.links.count(), 0)
+
+
+def test_delete_category(client):
+    category_1 = f.CategoryFactory.create()
+
+    url = reverse('links:category-detail', kwargs={'pk': category_1.id})
+    response = client.delete(url)
+
+    eq_(response.status_code, 204)
+    eq_(Category.objects.count(), 0)
+
+
+def test_delete_tag(client):
+    tag_1 = f.TagFactory.create()
+
+    url = reverse('links:tag-detail', kwargs={'pk': tag_1.id})
+    response = client.delete(url)
+
+    eq_(response.status_code, 204)
+    eq_(Tag.objects.count(), 0)

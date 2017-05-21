@@ -7,6 +7,7 @@ from .serializers import CategorySerializer, LinkSerializer, TagSerializer
 
 class CategoryViewSet(mixins.CreateModelMixin,
                       mixins.ListModelMixin,
+                      mixins.DestroyModelMixin,
                       viewsets.GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -14,6 +15,7 @@ class CategoryViewSet(mixins.CreateModelMixin,
 
 class LinkViewSet(mixins.CreateModelMixin,
                   mixins.ListModelMixin,
+                  mixins.DestroyModelMixin,
                   viewsets.GenericViewSet):
     queryset = Link.objects.all()
     serializer_class = LinkSerializer
@@ -22,6 +24,7 @@ class LinkViewSet(mixins.CreateModelMixin,
 
 class TagViewSet(mixins.CreateModelMixin,
                  mixins.ListModelMixin,
+                 mixins.DestroyModelMixin,
                  viewsets.GenericViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
