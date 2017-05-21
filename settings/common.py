@@ -23,6 +23,7 @@ class Common(Configuration):
         # Third party apps
         'rest_framework',                  # utilities for rest apis
         'rest_framework.authtoken',        # token authentication
+        'rest_auth',                       # rest authentication
         'django_filters',                  # django filters
         'django_rq',                       # asynchronous queuing
         'behaviors.apps.BehaviorsConfig',  # django behaviors

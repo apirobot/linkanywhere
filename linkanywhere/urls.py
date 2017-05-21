@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^api/v1/', include('linkanywhere.apps.links.urls', namespace='links')),
     url(r'^api/v1/', include('linkanywhere.apps.users.urls', namespace='users')),
 
+    url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^django-rq/', include('django_rq.urls')),
 

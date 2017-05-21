@@ -17,6 +17,9 @@ djangorestframework==3.6.2
 Markdown==2.6.8
 django-filter==1.0.2
 
+# Authentication
+django-rest-auth==0.9.1
+
 # Static files
 whitenoise==3.3.0
 
