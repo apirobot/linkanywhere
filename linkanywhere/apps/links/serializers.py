@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from .relations import TagRelatedField
 from .models import Category, Link, Tag
 
 
@@ -20,12 +21,12 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class LinkSerializer(serializers.ModelSerializer):
-    category = serializers.ReadOnlyField(source='category.name')
-    tags = serializers.SlugRelatedField(
-        many=True,
-        read_only=True,
+    description = serializers.CharField(required=False)
+    category = serializers.SlugRelatedField(
+        queryset=Category.objects.all(),
         slug_field='name'
     )
+    tags = TagRelatedField(many=True, required=False)
 
     class Meta:
         model = Link

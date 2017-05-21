@@ -10,6 +10,42 @@ from .. import factories as f
 pytestmark = pytest.mark.django_db
 
 
+def test_create_link(client):
+    category_1 = f.CategoryFactory.create()
+    tag_1 = f.TagFactory.create()
+    tag_2 = f.TagFactory.create()
+
+    url = reverse('links:link-list')
+    data = {
+        'title': 'Test link',
+        'url': 'https://testlink.com',
+        'description': 'Test link description',
+        'category': category_1.name,
+        'tags': [tag_1.name, tag_2.name]
+    }
+
+    response = client.post(url, data)
+    eq_(response.status_code, 201)
+    eq_(response.data['category'], category_1.name)
+    eq_(response.data['tags'], [tag_1.name, tag_2.name])
+
+
+def test_create_link_with_not_created_tags(client):
+    category_1 = f.CategoryFactory.create()
+
+    url = reverse('links:link-list')
+    data = {
+        'title': 'Test link',
+        'url': 'https://testlink.com',
+        'description': 'Test link description',
+        'category': category_1.name,
+        'tags': ['some tag 1', 'some tag 2']
+    }
+    response = client.post(url, data)
+    eq_(response.status_code, 201)
+    eq_(response.data['tags'], ['some tag 1', 'some tag 2'])
+
+
 def test_create_category(client):
     url = reverse('links:category-list')
     data = {'name': 'Test category'}

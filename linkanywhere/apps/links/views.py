@@ -12,7 +12,8 @@ class CategoryViewSet(mixins.CreateModelMixin,
     serializer_class = CategorySerializer
 
 
-class LinkViewSet(mixins.ListModelMixin,
+class LinkViewSet(mixins.CreateModelMixin,
+                  mixins.ListModelMixin,
                   viewsets.GenericViewSet):
     queryset = Link.objects.all()
     serializer_class = LinkSerializer
