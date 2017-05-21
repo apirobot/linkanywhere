@@ -20,6 +20,7 @@ class LinkViewSet(mixins.CreateModelMixin,
     queryset = Link.objects.all()
     serializer_class = LinkSerializer
     filter_class = LinkFilter
+    search_fields = ('title', 'description')
 
 
 class TagViewSet(mixins.CreateModelMixin,

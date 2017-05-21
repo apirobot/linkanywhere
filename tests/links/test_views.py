@@ -181,3 +181,16 @@ def test_destroy_tag(client):
 
     eq_(response.status_code, 204)
     eq_(Tag.objects.count(), 0)
+
+
+def test_search_links(client):
+    f.LinkFactory.create(description='some description here')
+    f.LinkFactory.create()
+
+    url = urljoin(reverse('links:link-list'),
+                  '?search=some+description')
+    response = client.get(url)
+    response_content = response.data['results']
+
+    eq_(response.status_code, 200)
+    eq_(len(response_content), 1)
