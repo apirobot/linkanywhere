@@ -2,4 +2,4 @@ from .local import Local
 
 
 class Testing(Local):
-    pass
+    Local.INSTALLED_APPS += ('tests', )
