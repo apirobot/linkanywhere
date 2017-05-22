@@ -51,13 +51,15 @@ def test_create_link_with_not_created_tags(client):
     eq_(response_content['tags'], ['some tag 1', 'some tag 2'])
 
 
-def test_create_category(client):
+def test_create_category(client, admin_client):
     url = reverse('links:category-list')
     data = {'name': 'Test category'}
 
-    response = client.post(url, data)
-    response_content = response.data
+    response = client.post(url)
+    eq_(response.status_code, 403)
 
+    response = admin_client.post(url, data)
+    response_content = response.data
     eq_(response.status_code, 201)
     eq_(response_content['name'], 'Test category')
 
@@ -163,12 +165,15 @@ def test_destroy_link(client):
     eq_(category_1.links.count(), 0)
 
 
-def test_destroy_category(client):
+def test_destroy_category(client, admin_client):
     category_1 = f.CategoryFactory.create()
 
     url = reverse('links:category-detail', kwargs={'pk': category_1.id})
-    response = client.delete(url)
 
+    response = client.delete(url)
+    eq_(response.status_code, 403)
+
+    response = admin_client.delete(url)
     eq_(response.status_code, 204)
     eq_(Category.objects.count(), 0)
 
