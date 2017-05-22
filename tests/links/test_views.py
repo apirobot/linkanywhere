@@ -5,6 +5,8 @@ from nose.tools import eq_
 
 from django.core.urlresolvers import reverse
 
+from rest_framework import status
+
 from linkanywhere.apps.links.models import Category, Link, Tag
 from .. import factories as f
 
@@ -28,7 +30,7 @@ def test_create_link(client):
     response = client.post(url, data)
     response_content = response.data
 
-    eq_(response.status_code, 201)
+    eq_(response.status_code, status.HTTP_201_CREATED)
     eq_(response_content['category'], category_1.name)
     eq_(response_content['tags'], [tag_1.name, tag_2.name])
 
@@ -47,7 +49,7 @@ def test_create_link_with_not_created_tags(client):
     response = client.post(url, data)
     response_content = response.data
 
-    eq_(response.status_code, 201)
+    eq_(response.status_code, status.HTTP_201_CREATED)
     eq_(response_content['tags'], ['some tag 1', 'some tag 2'])
 
 
@@ -56,11 +58,11 @@ def test_create_category(client, admin_client):
     data = {'name': 'Test category'}
 
     response = client.post(url)
-    eq_(response.status_code, 403)
+    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
 
     response = admin_client.post(url, data)
     response_content = response.data
-    eq_(response.status_code, 201)
+    eq_(response.status_code, status.HTTP_201_CREATED)
     eq_(response_content['name'], 'Test category')
 
 
@@ -71,7 +73,7 @@ def test_create_tag(client):
     response = client.post(url, data)
     response_content = response.data
 
-    eq_(response.status_code, 201)
+    eq_(response.status_code, status.HTTP_201_CREATED)
     eq_(response_content['name'], 'Test tag')
 
 
@@ -83,7 +85,7 @@ def test_list_links(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(link_1.id))
 
@@ -103,7 +105,7 @@ def test_list_links_filtered_by_category_and_tag(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)
 
     # by tag
@@ -113,7 +115,7 @@ def test_list_links_filtered_by_category_and_tag(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)
 
     # by category & tag
@@ -123,7 +125,7 @@ def test_list_links_filtered_by_category_and_tag(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 1)
 
 
@@ -135,7 +137,7 @@ def test_list_categories(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(category_1.id))
 
@@ -148,7 +150,7 @@ def test_list_tags(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(tag_1.id))
 
@@ -160,7 +162,7 @@ def test_destroy_link(client):
     url = reverse('links:link-detail', kwargs={'pk': link_1.id})
     response = client.delete(url)
 
-    eq_(response.status_code, 204)
+    eq_(response.status_code, status.HTTP_204_NO_CONTENT)
     eq_(Link.objects.count(), 0)
     eq_(category_1.links.count(), 0)
 
@@ -171,10 +173,10 @@ def test_destroy_category(client, admin_client):
     url = reverse('links:category-detail', kwargs={'pk': category_1.id})
 
     response = client.delete(url)
-    eq_(response.status_code, 403)
+    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
 
     response = admin_client.delete(url)
-    eq_(response.status_code, 204)
+    eq_(response.status_code, status.HTTP_204_NO_CONTENT)
     eq_(Category.objects.count(), 0)
 
 
@@ -184,7 +186,7 @@ def test_destroy_tag(client):
     url = reverse('links:tag-detail', kwargs={'pk': tag_1.id})
     response = client.delete(url)
 
-    eq_(response.status_code, 204)
+    eq_(response.status_code, status.HTTP_204_NO_CONTENT)
     eq_(Tag.objects.count(), 0)
 
 
@@ -197,5 +199,5 @@ def test_search_links(client):
     response = client.get(url)
     response_content = response.data['results']
 
-    eq_(response.status_code, 200)
+    eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 1)
