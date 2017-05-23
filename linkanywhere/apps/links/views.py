@@ -1,4 +1,4 @@
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, permissions
 
 from linkanywhere.apps.base.permissions import IsAdminOrReadOnly
 from .filters import LinkFilter
@@ -23,6 +23,10 @@ class LinkViewSet(mixins.CreateModelMixin,
     serializer_class = LinkSerializer
     filter_class = LinkFilter
     search_fields = ('title', 'description')
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class TagViewSet(mixins.CreateModelMixin,

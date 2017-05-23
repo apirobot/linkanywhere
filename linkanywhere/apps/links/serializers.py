@@ -21,6 +21,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class LinkSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     description = serializers.CharField(required=False)
     category = serializers.SlugRelatedField(
         queryset=Category.objects.all(),
@@ -32,6 +33,7 @@ class LinkSerializer(serializers.ModelSerializer):
         model = Link
         fields = (
             'id',
+            'owner',
             'title',
             'url',
             'description',

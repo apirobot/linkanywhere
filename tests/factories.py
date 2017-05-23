@@ -46,6 +46,7 @@ class LinkFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('id', )
 
     id = factory.Sequence(lambda n: uuid.uuid4())
+    owner = factory.SubFactory(UserFactory)
     title = factory.Sequence(lambda n: 'title{}'.format(n))
     url = factory.Faker('url')
     description = factory.Sequence(lambda n: 'description{}'.format(n))

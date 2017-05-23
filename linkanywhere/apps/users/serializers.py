@@ -9,6 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
         min_length=8,
         write_only=True
     )
+    links = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='title'
+    )
 
     class Meta:
         model = User
@@ -19,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'first_name',
             'last_name',
+            'links',
         )
 
     def create(self, validated_data):
