@@ -31,6 +31,7 @@ class Common(Configuration):
 
         # Your apps
         'linkanywhere.apps.base',
+        'linkanywhere.apps.likes',
         'linkanywhere.apps.links',
         'linkanywhere.apps.users',
 
