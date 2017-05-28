@@ -84,7 +84,7 @@ def test_create_category(client, admin_client):
     data = {'name': 'Test category'}
 
     response = client.post(url)
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     response = admin_client.post(url, data)
     response_content = response.data
@@ -201,7 +201,7 @@ def test_destroy_category(client, admin_client):
     url = reverse('links:category-detail', kwargs={'pk': category_1.id})
 
     response = client.delete(url)
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     response = admin_client.delete(url)
     eq_(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -238,7 +238,7 @@ def test_like_link(client):
     url = reverse('links:link-like', kwargs={'pk': link_1.id})
     response = client.post(url)
 
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
     eq_(link_1.likes.count(), 0)
 
     client.login(user)
@@ -257,7 +257,7 @@ def test_unlike_link(client):
     url = reverse('links:link-unlike', kwargs={'pk': link_1.id})
     response = client.post(url)
 
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
     eq_(link_1.likes.count(), 1)
 
     client.login(user)
