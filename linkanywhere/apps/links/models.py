@@ -2,8 +2,11 @@ import uuid
 
 from django.conf import settings
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 from behaviors.behaviors import Timestamped
+
+from linkanywhere.apps.likes.models import Like
 
 
 class Category(models.Model):
@@ -23,6 +26,7 @@ class Link(Timestamped, models.Model):
     title = models.CharField(max_length=200)
     url = models.URLField()
     description = models.TextField()
+    likes = GenericRelation(Like)
     category = models.ForeignKey(
         'links.Category', on_delete=models.CASCADE, related_name='links'
     )
