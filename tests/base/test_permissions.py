@@ -1,3 +1,4 @@
+import pytest
 from nose.tools import eq_
 
 from rest_framework import (
@@ -6,6 +7,9 @@ from rest_framework import (
 
 from linkanywhere.apps.base.permissions import IsAdminOrReadOnly
 from tests.models import BasicModel
+from .. import factories as f
+
+pytestmark = pytest.mark.django_db
 
 
 class BasicSerializer(serializers.ModelSerializer):
@@ -29,6 +33,14 @@ def test_anonymous_user_has_read_only_permissions(rf):
     response = instance_view(request)
 
     eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+def test_authenticated_user_has_read_only_permissions(rf):
+    request = rf.post('/', {'text': 'some text'})
+    request.user = f.UserFactory.create()
+    response = instance_view(request)
+
+    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
 def test_admin_user_has_create_permissions(rf, admin_user):
