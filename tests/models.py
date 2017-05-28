@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 
@@ -5,6 +7,7 @@ class TestModel(models.Model):
     """
     Base for test models that sets app_label, so they play nicely.
     """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta:
         app_label = 'tests'
@@ -12,4 +15,8 @@ class TestModel(models.Model):
 
 
 class BasicModel(TestModel):
+    text = models.CharField(max_length=100)
+
+
+class LikeModel(TestModel):
     text = models.CharField(max_length=100)

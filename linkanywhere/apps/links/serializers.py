@@ -39,6 +39,7 @@ class LinkSerializer(serializers.ModelSerializer):
             'description',
             'category',
             'tags',
+            'total_likes',
             'created',
             'modified',
         )

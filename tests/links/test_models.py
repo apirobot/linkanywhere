@@ -1,3 +1,4 @@
+import mock
 import pytest
 from nose.tools import eq_
 from django_nose.tools import assert_queryset_equal
@@ -54,3 +55,10 @@ def test_link_and_tag_relation():
     )
     eq_(tag_1.links.count(), 2)
     eq_(tag_2.links.count(), 1)
+
+
+def test_link_total_likes():
+    link_1 = f.LinkFactory.create()
+    with mock.patch('linkanywhere.apps.links.models.Link.likes') as likes_mock:
+        link_1.total_likes
+        likes_mock.count.assert_called()

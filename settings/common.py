@@ -31,6 +31,7 @@ class Common(Configuration):
 
         # Your apps
         'linkanywhere.apps.base',
+        'linkanywhere.apps.likes',
         'linkanywhere.apps.links',
         'linkanywhere.apps.users',
 
@@ -217,8 +218,8 @@ class Common(Configuration):
             'rest_framework.renderers.BrowsableAPIRenderer',
         ),
         'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.SessionAuthentication',
             'rest_framework.authentication.TokenAuthentication',
+            'rest_framework.authentication.SessionAuthentication',
         )
     }
 

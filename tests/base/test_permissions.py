@@ -28,7 +28,7 @@ def test_anonymous_user_has_read_only_permissions(rf):
     request = rf.post('/', {'text': 'some text'})
     response = instance_view(request)
 
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 def test_admin_user_has_create_permissions(rf, admin_user):

@@ -1,5 +1,7 @@
 import uuid
 
+from django.contrib.contenttypes.models import ContentType
+
 import factory
 
 
@@ -62,3 +64,21 @@ class LinkFactory(factory.django.DjangoModelFactory):
             # A list of tags were passed in, use them
             for tag in extracted:
                 self.tags.add(tag)
+
+
+class LikeFactory(factory.DjangoModelFactory):
+    object_id = factory.SelfAttribute('content_object.id')
+    content_type = factory.LazyAttribute(
+        lambda o: ContentType.objects.get_for_model(o.content_object))
+
+    class Meta:
+        exclude = ['content_object']
+        abstract = True
+
+
+class LikeLinkFactory(LikeFactory):
+    user = factory.SubFactory(UserFactory)
+    content_object = factory.SubFactory(LinkFactory)
+
+    class Meta:
+        model = 'likes.Like'

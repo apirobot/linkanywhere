@@ -84,7 +84,7 @@ def test_create_category(client, admin_client):
     data = {'name': 'Test category'}
 
     response = client.post(url)
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     response = admin_client.post(url, data)
     response_content = response.data
@@ -201,7 +201,7 @@ def test_destroy_category(client, admin_client):
     url = reverse('links:category-detail', kwargs={'pk': category_1.id})
 
     response = client.delete(url)
-    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     response = admin_client.delete(url)
     eq_(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -229,3 +229,40 @@ def test_search_links(client):
 
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 1)
+
+
+def test_like_link(client):
+    user = f.UserFactory.create()
+    link_1 = f.LinkFactory.create()
+
+    url = reverse('links:link-like', kwargs={'pk': link_1.id})
+    response = client.post(url)
+
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    eq_(link_1.likes.count(), 0)
+
+    client.login(user)
+    for _ in range(2):  # like one link two times
+        response = client.post(url)
+
+        eq_(response.status_code, status.HTTP_200_OK)
+        eq_(link_1.likes.count(), 1)
+
+
+def test_unlike_link(client):
+    user = f.UserFactory.create()
+    link_1 = f.LinkFactory.create()
+    f.LikeLinkFactory(content_object=link_1, user=user)
+
+    url = reverse('links:link-unlike', kwargs={'pk': link_1.id})
+    response = client.post(url)
+
+    eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    eq_(link_1.likes.count(), 1)
+
+    client.login(user)
+    for _ in range(2):  # unlike one link two times
+        response = client.post(url)
+
+        eq_(response.status_code, status.HTTP_200_OK)
+        eq_(link_1.likes.count(), 0)
