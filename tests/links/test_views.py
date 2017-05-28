@@ -229,3 +229,40 @@ def test_search_links(client):
 
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 1)
+
+
+def test_like_link(client):
+    user = f.UserFactory.create()
+    link_1 = f.LinkFactory.create()
+
+    url = reverse('links:link-like', kwargs={'pk': link_1.id})
+    response = client.post(url)
+
+    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(link_1.likes.count(), 0)
+
+    client.login(user)
+    for _ in range(2):  # like one link two times
+        response = client.post(url)
+
+        eq_(response.status_code, status.HTTP_200_OK)
+        eq_(link_1.likes.count(), 1)
+
+
+def test_unlike_link(client):
+    user = f.UserFactory.create()
+    link_1 = f.LinkFactory.create()
+    f.LikeLinkFactory(content_object=link_1, user=user)
+
+    url = reverse('links:link-unlike', kwargs={'pk': link_1.id})
+    response = client.post(url)
+
+    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+    eq_(link_1.likes.count(), 1)
+
+    client.login(user)
+    for _ in range(2):  # unlike one link two times
+        response = client.post(url)
+
+        eq_(response.status_code, status.HTTP_200_OK)
+        eq_(link_1.likes.count(), 0)
