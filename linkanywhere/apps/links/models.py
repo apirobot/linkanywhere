@@ -37,6 +37,10 @@ class Link(Timestamped, models.Model):
     def __str__(self):
         return '{0}: {1}'.format(self.title, self.url)
 
+    @property
+    def total_likes(self):
+        return self.likes.count()
+
 
 class Tag(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
