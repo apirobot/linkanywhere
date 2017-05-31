@@ -34,6 +34,7 @@ class Common(Configuration):
         'linkanywhere.apps.categories',
         'linkanywhere.apps.likes',
         'linkanywhere.apps.links',
+        'linkanywhere.apps.tags',
         'linkanywhere.apps.users',
 
     )

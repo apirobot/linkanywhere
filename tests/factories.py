@@ -34,7 +34,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 class TagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
-        model = 'links.Tag'
+        model = 'tags.Tag'
         django_get_or_create = ('name', )
 
     id = factory.Sequence(lambda n: uuid.uuid4())

@@ -23,7 +23,7 @@ class Link(Timestamped, models.Model):
         'categories.Category', on_delete=models.CASCADE, related_name='links'
     )
     tags = models.ManyToManyField(
-        'links.Tag', related_name='links'
+        'tags.Tag', related_name='links'
     )
 
     def __str__(self):
@@ -32,11 +32,3 @@ class Link(Timestamped, models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
-
-
-class Tag(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=60)
-
-    def __str__(self):
-        return self.name

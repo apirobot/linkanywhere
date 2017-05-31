@@ -2,8 +2,8 @@ from rest_framework import viewsets, mixins, permissions
 
 from linkanywhere.apps.likes.mixins import LikedMixin
 from .filters import LinkFilter
-from .models import Link, Tag
-from .serializers import LinkSerializer, TagSerializer
+from .models import Link
+from .serializers import LinkSerializer
 
 
 class LinkViewSet(LikedMixin,
@@ -19,11 +19,3 @@ class LinkViewSet(LikedMixin,
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
-
-class TagViewSet(mixins.CreateModelMixin,
-                 mixins.ListModelMixin,
-                 mixins.DestroyModelMixin,
-                 viewsets.GenericViewSet):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
