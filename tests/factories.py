@@ -24,7 +24,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 class CategoryFactory(factory.django.DjangoModelFactory):
 
     class Meta:
-        model = 'links.Category'
+        model = 'categories.Category'
         django_get_or_create = ('name', )
 
     id = factory.Sequence(lambda n: uuid.uuid4())

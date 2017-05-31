@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^api/v1/', include('linkanywhere.apps.categories.urls', namespace='categories')),
     url(r'^api/v1/', include('linkanywhere.apps.links.urls', namespace='links')),
     url(r'^api/v1/', include('linkanywhere.apps.users.urls', namespace='users')),
 

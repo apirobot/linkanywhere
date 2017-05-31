@@ -9,14 +9,6 @@ from behaviors.behaviors import Timestamped
 from linkanywhere.apps.likes.models import Like
 
 
-class Category(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=60, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Link(Timestamped, models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(
@@ -28,7 +20,7 @@ class Link(Timestamped, models.Model):
     description = models.TextField()
     likes = GenericRelation(Like)
     category = models.ForeignKey(
-        'links.Category', on_delete=models.CASCADE, related_name='links'
+        'categories.Category', on_delete=models.CASCADE, related_name='links'
     )
     tags = models.ManyToManyField(
         'links.Tag', related_name='links'

@@ -1,19 +1,9 @@
 from rest_framework import viewsets, mixins, permissions
 
-from linkanywhere.apps.base.permissions import IsAdminOrReadOnly
 from linkanywhere.apps.likes.mixins import LikedMixin
 from .filters import LinkFilter
-from .models import Category, Link, Tag
-from .serializers import CategorySerializer, LinkSerializer, TagSerializer
-
-
-class CategoryViewSet(mixins.CreateModelMixin,
-                      mixins.ListModelMixin,
-                      mixins.DestroyModelMixin,
-                      viewsets.GenericViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = (IsAdminOrReadOnly, )
+from .models import Link, Tag
+from .serializers import LinkSerializer, TagSerializer
 
 
 class LinkViewSet(LikedMixin,
