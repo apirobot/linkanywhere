@@ -5,22 +5,6 @@ from django.contrib.contenttypes.models import ContentType
 import factory
 
 
-class UserFactory(factory.django.DjangoModelFactory):
-
-    class Meta:
-        model = 'users.User'
-        django_get_or_create = ('username', )
-
-    id = factory.Sequence(lambda n: uuid.uuid4())
-    username = factory.Sequence(lambda n: 'testuser{}'.format(n))
-    password = factory.Faker('password', length=10, special_chars=True, digits=True, upper_case=True, lower_case=True)
-    email = factory.Faker('email')
-    first_name = factory.Faker('first_name')
-    last_name = factory.Faker('last_name')
-    is_active = True
-    is_staff = False
-
-
 class CategoryFactory(factory.django.DjangoModelFactory):
 
     class Meta:
@@ -31,14 +15,22 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'name{}'.format(n))
 
 
-class TagFactory(factory.django.DjangoModelFactory):
+class LikeFactory(factory.DjangoModelFactory):
+    object_id = factory.SelfAttribute('content_object.id')
+    content_type = factory.LazyAttribute(
+        lambda o: ContentType.objects.get_for_model(o.content_object))
 
     class Meta:
-        model = 'tags.Tag'
-        django_get_or_create = ('name', )
+        exclude = ['content_object']
+        abstract = True
 
-    id = factory.Sequence(lambda n: uuid.uuid4())
-    name = factory.Sequence(lambda n: 'name{}'.format(n))
+
+class LikeLinkFactory(LikeFactory):
+    user = factory.SubFactory('tests.factories.UserFactory')
+    content_object = factory.SubFactory('tests.factories.LinkFactory')
+
+    class Meta:
+        model = 'likes.Like'
 
 
 class LinkFactory(factory.django.DjangoModelFactory):
@@ -48,7 +40,7 @@ class LinkFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('id', )
 
     id = factory.Sequence(lambda n: uuid.uuid4())
-    owner = factory.SubFactory(UserFactory)
+    owner = factory.SubFactory('tests.factories.UserFactory')
     title = factory.Sequence(lambda n: 'title{}'.format(n))
     url = factory.Faker('url')
     description = factory.Sequence(lambda n: 'description{}'.format(n))
@@ -66,19 +58,27 @@ class LinkFactory(factory.django.DjangoModelFactory):
                 self.tags.add(tag)
 
 
-class LikeFactory(factory.DjangoModelFactory):
-    object_id = factory.SelfAttribute('content_object.id')
-    content_type = factory.LazyAttribute(
-        lambda o: ContentType.objects.get_for_model(o.content_object))
+class TagFactory(factory.django.DjangoModelFactory):
 
     class Meta:
-        exclude = ['content_object']
-        abstract = True
+        model = 'tags.Tag'
+        django_get_or_create = ('name', )
+
+    id = factory.Sequence(lambda n: uuid.uuid4())
+    name = factory.Sequence(lambda n: 'name{}'.format(n))
 
 
-class LikeLinkFactory(LikeFactory):
-    user = factory.SubFactory(UserFactory)
-    content_object = factory.SubFactory(LinkFactory)
+class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
-        model = 'likes.Like'
+        model = 'users.User'
+        django_get_or_create = ('username', )
+
+    id = factory.Sequence(lambda n: uuid.uuid4())
+    username = factory.Sequence(lambda n: 'testuser{}'.format(n))
+    password = factory.Faker('password', length=10, special_chars=True, digits=True, upper_case=True, lower_case=True)
+    email = factory.Faker('email')
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    is_active = True
+    is_staff = False
