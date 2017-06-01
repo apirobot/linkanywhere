@@ -3,6 +3,8 @@ import pytest
 from nose.tools import eq_
 from django_nose.tools import assert_queryset_equal
 
+from linkanywhere.apps.links.constants import DRAFT, PUBLISHED
+from linkanywhere.apps.links.models import Link
 from .. import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -45,3 +47,12 @@ def test_link_total_likes():
     with mock.patch('linkanywhere.apps.links.models.Link.likes') as likes_mock:
         link_1.total_likes
         likes_mock.count.assert_called()
+
+
+def test_link_published_and_draft_statuses():
+    f.LinkFactory.create(publication_status=DRAFT)
+    f.LinkFactory.create(publication_status=DRAFT)
+    f.LinkFactory.create(publication_status=PUBLISHED)
+
+    eq_(Link.objects.published().count(), 1)
+    eq_(Link.objects.draft().count(), 2)

@@ -4,6 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 
 import factory
 
+from linkanywhere.apps.links.constants import PUBLISHED
+
 
 class CategoryFactory(factory.django.DjangoModelFactory):
 
@@ -45,6 +47,7 @@ class LinkFactory(factory.django.DjangoModelFactory):
     url = factory.Faker('url')
     description = factory.Sequence(lambda n: 'description{}'.format(n))
     category = factory.SubFactory(CategoryFactory)
+    publication_status = PUBLISHED
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):

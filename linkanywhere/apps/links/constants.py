@@ -1,0 +1,2 @@
+DRAFT = 'd'
+PUBLISHED = 'p'
