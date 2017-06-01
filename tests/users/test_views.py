@@ -25,6 +25,8 @@ def test_list_users(client):
 
 def test_retrieve_user(client):
     user_1 = f.UserFactory.create()
+    f.LikeLinkFactory(user=user_1)
+    f.LikeLinkFactory(user=user_1)
 
     url = reverse('users:user-detail', kwargs={'username': user_1.username})
     response = client.get(url)
@@ -32,3 +34,4 @@ def test_retrieve_user(client):
 
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(response_content['id'], str(user_1.id))
+    eq_(len(response_content['liked_links']), 2)
