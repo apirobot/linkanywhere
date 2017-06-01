@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 
 from rest_framework import status
 
+from linkanywhere.apps.links.constants import DRAFT, PUBLISHED
 from linkanywhere.apps.links.models import Link
 from .. import factories as f
 
@@ -90,6 +91,18 @@ def test_list_links(client):
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)
     eq_(response_content[0]['id'], str(link_1.id))
+
+
+def test_list_only_published_links(client):
+    f.LinkFactory.create(publication_status=DRAFT)
+    f.LinkFactory.create(publication_status=PUBLISHED)
+
+    url = reverse('links:link-list')
+    response = client.get(url)
+    response_content = response.data['results']
+
+    eq_(response.status_code, status.HTTP_200_OK)
+    eq_(len(response_content), 1)
 
 
 def test_list_links_filtered_by_category_and_tag(client):

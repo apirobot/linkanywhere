@@ -11,7 +11,7 @@ class LinkViewSet(LikedMixin,
                   mixins.ListModelMixin,
                   mixins.DestroyModelMixin,
                   viewsets.GenericViewSet):
-    queryset = Link.objects.all()
+    queryset = Link.objects.published()
     serializer_class = LinkSerializer
     filter_class = LinkFilter
     search_fields = ('title', 'description')
