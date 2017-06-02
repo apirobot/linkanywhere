@@ -16,6 +16,7 @@ class Common(Configuration):
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
+        'django.contrib.sites',
         'django.contrib.messages',
         'django.contrib.staticfiles',
 
@@ -23,7 +24,10 @@ class Common(Configuration):
         # Third party apps
         'rest_framework',                  # utilities for rest apis
         'rest_framework.authtoken',        # token authentication
+        'allauth',                         # allauth
+        'allauth.account',                 # allauth
         'rest_auth',                       # rest authentication
+        'rest_auth.registration',          # rest registration
         'django_filters',                  # django filters
         'django_rq',                       # asynchronous queuing
         'behaviors.apps.BehaviorsConfig',  # django behaviors
@@ -38,6 +42,8 @@ class Common(Configuration):
         'linkanywhere.apps.users',
 
     )
+
+    SITE_ID = 1
 
     # https://docs.djangoproject.com/en/1.10/topics/http/middleware/
     MIDDLEWARE = (
