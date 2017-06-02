@@ -96,11 +96,30 @@ def test_list_links(client):
 def test_list_only_published_links(client):
     f.LinkFactory.create(publication_status=DRAFT)
     f.LinkFactory.create(publication_status=PUBLISHED)
+    f.LinkFactory.create(publication_status=PUBLISHED)
 
     url = reverse('links:link-list')
     response = client.get(url)
     response_content = response.data['results']
 
+    eq_(response.status_code, status.HTTP_200_OK)
+    eq_(len(response_content), 2)
+
+
+def test_list_only_draft_links(client, admin_client):
+    user_1 = f.UserFactory.create()
+    f.LinkFactory.create(publication_status=DRAFT)
+    f.LinkFactory.create(publication_status=PUBLISHED)
+    f.LinkFactory.create(publication_status=PUBLISHED)
+
+    url = reverse('links:link-draft')
+
+    client.login(user_1)
+    response = client.get(url)
+    eq_(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    response = admin_client.get(url)
+    response_content = response.data['results']
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 1)
 

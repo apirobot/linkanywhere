@@ -1,4 +1,5 @@
 from rest_framework import viewsets, mixins, permissions
+from rest_framework.decorators import list_route
 
 from linkanywhere.apps.likes.mixins import LikedMixin
 from .filters import LinkFilter
@@ -19,3 +20,8 @@ class LinkViewSet(LikedMixin,
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    @list_route(permission_classes=[permissions.IsAdminUser])
+    def draft(self, request):
+        self.queryset = Link.objects.draft()
+        return self.list(request)
