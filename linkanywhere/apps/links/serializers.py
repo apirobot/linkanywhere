@@ -28,3 +28,10 @@ class LinkSerializer(serializers.ModelSerializer):
             'created',
             'modified',
         )
+
+
+class PublicationStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Link
+        fields = ('publication_status', )

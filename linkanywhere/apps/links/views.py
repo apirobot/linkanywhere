@@ -1,10 +1,11 @@
-from rest_framework import viewsets, mixins, permissions
-from rest_framework.decorators import list_route
+from rest_framework import viewsets, mixins, permissions, status
+from rest_framework.response import Response
+from rest_framework.decorators import detail_route, list_route
 
 from linkanywhere.apps.likes.mixins import LikedMixin
 from .filters import LinkFilter
 from .models import Link
-from .serializers import LinkSerializer
+from .serializers import LinkSerializer, PublicationStatusSerializer
 
 
 class LinkViewSet(LikedMixin,
@@ -25,3 +26,17 @@ class LinkViewSet(LikedMixin,
     def draft(self, request):
         self.queryset = Link.objects.draft()
         return self.list(request)
+
+    @detail_route(methods=['POST'], permission_classes=[permissions.IsAdminUser])
+    def change_publication_status(self, request, pk=None):
+        link = self.get_object()
+        serializer = PublicationStatusSerializer(data=request.data)
+
+        if serializer.is_valid():
+            link.publication_status = serializer.data['publication_status']
+            link.save()
+            return Response({'status': 'publication status changed'})
+
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
