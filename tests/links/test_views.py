@@ -227,15 +227,19 @@ def test_unlike_link(client):
         eq_(link_1.likes.count(), 0)
 
 
-def test_change_publication_status_of_a_link(client, admin_client):
+@pytest.mark.parametrize('publication_status', [
+    PUBLISHED,
+    DRAFT
+])
+def test_change_publication_status_of_a_link(publication_status, client, admin_client):
     user_1 = f.UserFactory.create()
-    link_1 = f.LinkFactory.create(publication_status=PUBLISHED)
+    link_1 = f.LinkFactory.create(publication_status=publication_status)
     link_1_id = link_1.id
 
     url = reverse('links:link-change-publication-status',
                   kwargs={'pk': link_1_id})
     data = {
-        'publication_status': 'd'
+        'publication_status': publication_status
     }
 
     client.login(user_1)
@@ -246,4 +250,4 @@ def test_change_publication_status_of_a_link(client, admin_client):
     response_content = response.data
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(response_content['status'], 'publication status changed')
-    eq_(Link.objects.get(id=link_1_id).publication_status, 'd')
+    eq_(Link.objects.get(id=link_1_id).publication_status, publication_status)

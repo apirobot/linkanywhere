@@ -29,6 +29,7 @@ class LinkViewSet(LikedMixin,
 
     @detail_route(methods=['POST'], permission_classes=[permissions.IsAdminUser])
     def change_publication_status(self, request, pk=None):
+        self.queryset = Link.objects.all()
         link = self.get_object()
         serializer = PublicationStatusSerializer(data=request.data)
 
