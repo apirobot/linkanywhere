@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 
 from rest_framework import status
 
+from linkanywhere.apps.links.constants import DRAFT, PUBLISHED
 from .. import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -35,3 +36,18 @@ def test_retrieve_user(client):
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(response_content['id'], str(user_1.id))
     eq_(len(response_content['liked_links']), 2)
+
+
+def test_retrieve_user_with_published_and_draft_links(client):
+    user_1 = f.UserFactory.create()
+    f.LinkFactory(owner=user_1, publication_status=PUBLISHED)
+    f.LinkFactory(owner=user_1, publication_status=PUBLISHED)
+    f.LinkFactory(owner=user_1, publication_status=DRAFT)
+
+    url = reverse('users:user-detail', kwargs={'username': user_1.username})
+    response = client.get(url)
+    response_content = response.data
+
+    eq_(response.status_code, status.HTTP_200_OK)
+    eq_(len(response_content['published_links']), 2)
+    eq_(len(response_content['draft_links']), 1)
