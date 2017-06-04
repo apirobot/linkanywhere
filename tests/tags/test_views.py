@@ -31,7 +31,7 @@ def test_list_tags(client):
 
     url = reverse('tag-list')
     response = client.get(url)
-    response_content = response.data['results']
+    response_content = response.data
 
     eq_(response.status_code, status.HTTP_200_OK)
     eq_(len(response_content), 2)

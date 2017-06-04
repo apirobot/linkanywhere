@@ -2,6 +2,7 @@ from rest_framework import viewsets, mixins, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
 
+from linkanywhere.apps.base.pagination import StandardPagination
 from linkanywhere.apps.likes.mixins import LikedMixin
 from .filters import LinkFilter
 from .models import Link
@@ -18,6 +19,7 @@ class LinkViewSet(LikedMixin,
     filter_class = LinkFilter
     search_fields = ('title', 'description')
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    pagination_class = StandardPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
