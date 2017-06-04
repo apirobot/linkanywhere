@@ -24,14 +24,18 @@ class Common(Configuration):
         # Third party apps
         'rest_framework',                  # utilities for rest apis
         'rest_framework.authtoken',        # token authentication
-        'allauth',                         # allauth
-        'allauth.account',                 # allauth
         'rest_auth',                       # rest authentication
         'rest_auth.registration',          # rest registration
         'django_filters',                  # django filters
         'django_rq',                       # asynchronous queuing
         'behaviors.apps.BehaviorsConfig',  # django behaviors
         'versatileimagefield',             # image manipulation
+        'allauth',                         # allauth
+        'allauth.account',                 # allauth
+        'allauth.socialaccount',           # allauth social
+        'allauth.socialaccount.providers.facebook',
+        'allauth.socialaccount.providers.google',
+        'allauth.socialaccount.providers.vk',
 
         # Your apps
         'linkanywhere.apps.base',
