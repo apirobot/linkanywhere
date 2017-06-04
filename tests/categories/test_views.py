@@ -15,7 +15,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_create_category(client, admin_client):
-    url = reverse('categories:category-list')
+    url = reverse('category-list')
     data = {'name': 'Test category'}
 
     response = client.post(url)
@@ -31,7 +31,7 @@ def test_list_categories(client):
     category_1 = f.CategoryFactory.create()
     f.CategoryFactory.create()
 
-    url = reverse('categories:category-list')
+    url = reverse('category-list')
     response = client.get(url)
     response_content = response.data['results']
 
@@ -43,7 +43,7 @@ def test_list_categories(client):
 def test_destroy_category(client, admin_client):
     category_1 = f.CategoryFactory.create()
 
-    url = reverse('categories:category-detail', kwargs={'pk': category_1.id})
+    url = reverse('category-detail', kwargs={'pk': category_1.id})
 
     response = client.delete(url)
     eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)

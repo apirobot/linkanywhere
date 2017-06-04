@@ -24,7 +24,7 @@ def test_create_link(client):
     user = f.UserFactory.create()
 
     client.login(user)
-    url = reverse('links:link-list')
+    url = reverse('link-list')
     data = {
         'title': 'Test link',
         'url': 'https://testlink.com',
@@ -46,7 +46,7 @@ def test_created_link_is_associated_with_user(client):
     user = f.UserFactory.create()
 
     client.login(user)
-    url = reverse('links:link-list')
+    url = reverse('link-list')
     data = {
         'title': 'Test link',
         'url': 'https://testlink.com',
@@ -65,7 +65,7 @@ def test_create_link_with_not_created_tags(client):
     user = f.UserFactory.create()
 
     client.login(user)
-    url = reverse('links:link-list')
+    url = reverse('link-list')
     data = {
         'title': 'Test link',
         'url': 'https://testlink.com',
@@ -84,7 +84,7 @@ def test_list_links(client):
     link_1 = f.LinkFactory.create()
     f.LinkFactory.create()
 
-    url = reverse('links:link-list')
+    url = reverse('link-list')
     response = client.get(url)
     response_content = response.data['results']
 
@@ -98,7 +98,7 @@ def test_list_only_published_links(client):
     f.LinkFactory.create(publication_status=PUBLISHED)
     f.LinkFactory.create(publication_status=PUBLISHED)
 
-    url = reverse('links:link-list')
+    url = reverse('link-list')
     response = client.get(url)
     response_content = response.data['results']
 
@@ -112,7 +112,7 @@ def test_list_only_draft_links(client, admin_client):
     f.LinkFactory.create(publication_status=PUBLISHED)
     f.LinkFactory.create(publication_status=PUBLISHED)
 
-    url = reverse('links:link-draft')
+    url = reverse('link-draft')
 
     client.login(user_1)
     response = client.get(url)
@@ -134,7 +134,7 @@ def test_list_links_filtered_by_category_and_tag(client):
 
     # by category
 
-    url = urljoin(reverse('links:link-list'),
+    url = urljoin(reverse('link-list'),
                   '?category={}'.format(category_1.name))
     response = client.get(url)
     response_content = response.data['results']
@@ -144,7 +144,7 @@ def test_list_links_filtered_by_category_and_tag(client):
 
     # by tag
 
-    url = urljoin(reverse('links:link-list'),
+    url = urljoin(reverse('link-list'),
                   '?tag={}'.format(tag_1.name))
     response = client.get(url)
     response_content = response.data['results']
@@ -154,7 +154,7 @@ def test_list_links_filtered_by_category_and_tag(client):
 
     # by category & tag
 
-    url = urljoin(reverse('links:link-list'),
+    url = urljoin(reverse('link-list'),
                   '?category={}&tag={}'.format(category_1.name, tag_1.name))
     response = client.get(url)
     response_content = response.data['results']
@@ -169,7 +169,7 @@ def test_destroy_link(client):
     user = f.UserFactory.create()
 
     client.login(user)
-    url = reverse('links:link-detail', kwargs={'pk': link_1.id})
+    url = reverse('link-detail', kwargs={'pk': link_1.id})
     response = client.delete(url)
 
     eq_(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -181,7 +181,7 @@ def test_search_links(client):
     f.LinkFactory.create(description='some description here')
     f.LinkFactory.create()
 
-    url = urljoin(reverse('links:link-list'),
+    url = urljoin(reverse('link-list'),
                   '?search=some+description')
     response = client.get(url)
     response_content = response.data['results']
@@ -194,7 +194,7 @@ def test_like_link(client):
     user = f.UserFactory.create()
     link_1 = f.LinkFactory.create()
 
-    url = reverse('links:link-like', kwargs={'pk': link_1.id})
+    url = reverse('link-like', kwargs={'pk': link_1.id})
     response = client.post(url)
 
     eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -213,7 +213,7 @@ def test_unlike_link(client):
     link_1 = f.LinkFactory.create()
     f.LikeLinkFactory(content_object=link_1, user=user)
 
-    url = reverse('links:link-unlike', kwargs={'pk': link_1.id})
+    url = reverse('link-unlike', kwargs={'pk': link_1.id})
     response = client.post(url)
 
     eq_(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -236,7 +236,7 @@ def test_change_publication_status_of_a_link(publication_status, client, admin_c
     link_1 = f.LinkFactory.create(publication_status=publication_status)
     link_1_id = link_1.id
 
-    url = reverse('links:link-change-publication-status',
+    url = reverse('link-change-publication-status',
                   kwargs={'pk': link_1_id})
     data = {
         'publication_status': publication_status

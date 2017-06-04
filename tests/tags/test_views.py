@@ -15,7 +15,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_create_tag(client):
-    url = reverse('tags:tag-list')
+    url = reverse('tag-list')
     data = {'name': 'Test tag'}
 
     response = client.post(url, data)
@@ -29,7 +29,7 @@ def test_list_tags(client):
     tag_1 = f.TagFactory.create()
     f.TagFactory.create()
 
-    url = reverse('tags:tag-list')
+    url = reverse('tag-list')
     response = client.get(url)
     response_content = response.data['results']
 
@@ -41,7 +41,7 @@ def test_list_tags(client):
 def test_destroy_tag(client):
     tag_1 = f.TagFactory.create()
 
-    url = reverse('tags:tag-detail', kwargs={'pk': tag_1.id})
+    url = reverse('tag-detail', kwargs={'pk': tag_1.id})
     response = client.delete(url)
 
     eq_(response.status_code, status.HTTP_204_NO_CONTENT)
