@@ -12,7 +12,7 @@ before_script:
 install:
   - "pip install -r requirements/test.txt"
 script:
-  - pytest
+  - coverage run --source=linkanywhere --omit='*tests*,*migrations*,*admin*,*wsgi*' -m py.test -v --tb=native
 after_success:
   - coveralls
 
