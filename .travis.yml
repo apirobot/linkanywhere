@@ -3,8 +3,8 @@ services:
   - postgresql
   - redis-server
 python:
-  - "2.7"
   - "3.5"
+  - "3.6"
 before_script:
 - export DATABASE_URL=postgres://postgres@localhost/linkanywhere
 - export DJANGO_SECRET=`openssl rand -base64 32`
@@ -15,17 +15,6 @@ script:
   - pytest
 after_success:
   - coveralls
-
-deploy:
-  provider: heroku
-  app:
-    master: linkanywhere-dev
-    qa: linkanywhere-qa
-    prod: linkanywhere-prod
-  on:
-    repo: apirobot/linkanywhere-back
-  run:
-    - "./manage.py migrate"
 
 notifications:
   email: false
