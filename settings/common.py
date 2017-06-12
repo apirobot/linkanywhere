@@ -30,6 +30,7 @@ class Common(Configuration):
         'django_rq',                       # asynchronous queuing
         'behaviors.apps.BehaviorsConfig',  # django behaviors
         'versatileimagefield',             # image manipulation
+        'corsheaders',                     # cross-origin resource sharing
         'allauth',                         # allauth
         'allauth.account',                 # allauth
         'allauth.socialaccount',           # allauth social
@@ -52,6 +53,7 @@ class Common(Configuration):
     # https://docs.djangoproject.com/en/1.10/topics/http/middleware/
     MIDDLEWARE = (
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -59,6 +61,8 @@ class Common(Configuration):
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'django.middleware.security.SecurityMiddleware'
     )
+
+    CORS_ORIGIN_ALLOW_ALL = True
 
     ROOT_URLCONF = 'linkanywhere.urls'
 

@@ -17,6 +17,7 @@ django-behaviors==0.3.0
 djangorestframework==3.6.2
 Markdown==2.6.8
 django-filter==1.0.2
+django-cors-headers==2.1.0
 
 # Authentication
 django-allauth==0.32.0
