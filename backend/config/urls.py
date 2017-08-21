@@ -4,10 +4,18 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from linkanywhere.apps.users.views import FacebookLogin, GoogleLogin, VKLogin
-from .routers import router
+
+# Register API
+apipatterns = [
+    url(r'^', include('linkanywhere.apps.categories.urls')),
+    url(r'^', include('linkanywhere.apps.links.urls')),
+    url(r'^', include('linkanywhere.apps.tags.urls')),
+    url(r'^', include('linkanywhere.apps.users.urls')),
+]
 
 urlpatterns = [
-    url(r'^api/v1/', include(router.urls)),
+
+    url(r'^api/v1/', include((apipatterns, 'api'), namespace='api')),
 
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

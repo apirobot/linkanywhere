@@ -15,7 +15,7 @@ def test_list_users(client):
     user_1 = f.UserFactory.create()
     f.UserFactory.create()
 
-    url = reverse('user-list')
+    url = reverse('api:user-list')
     response = client.get(url)
     response_content = response.data
 
@@ -29,7 +29,7 @@ def test_retrieve_user(client):
     f.LikeLinkFactory(user=user_1)
     f.LikeLinkFactory(user=user_1)
 
-    url = reverse('user-detail', kwargs={'username': user_1.username})
+    url = reverse('api:user-detail', kwargs={'username': user_1.username})
     response = client.get(url)
     response_content = response.data
 
@@ -44,7 +44,7 @@ def test_retrieve_user_with_published_and_draft_links(client):
     f.LinkFactory(owner=user_1, publication_status=PUBLISHED)
     f.LinkFactory(owner=user_1, publication_status=DRAFT)
 
-    url = reverse('user-detail', kwargs={'username': user_1.username})
+    url = reverse('api:user-detail', kwargs={'username': user_1.username})
     response = client.get(url)
     response_content = response.data
 
