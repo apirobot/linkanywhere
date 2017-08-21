@@ -1,9 +1,0 @@
-[run]
-include = linkanywhere/*
-branch = True
-omit = *migrations*,
-       *urls*,
-       *tests*,
-       *admin*,
-       *wsgi*,
-       *__init__*

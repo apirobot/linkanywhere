@@ -28,6 +28,8 @@ logs
 *.log
 pip-log.txt
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Unit test / coverage reports
 .coverage
@@ -39,6 +41,10 @@ htmlcov
 *.mo
 *.pot
 
+# Pycharm
+.idea/*
+
+
 # Vim
 
 *~
@@ -48,15 +54,20 @@ htmlcov
 # npm
 node_modules/
 
+# Distribution
+build/
+
 # Compass
 .sass-cache
 
 # virtual environments
+.venv
 .env
 
 # User-uploaded media
 linkanywhere/media/
 
+dist/
 staticfiles/
 
 .cache/

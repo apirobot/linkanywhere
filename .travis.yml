@@ -1,28 +1,21 @@
 language: python
+python:
+  - "3.6"
 services:
   - postgresql
   - redis-server
-python:
-  - "3.5"
-  - "3.6"
 before_script:
-- export DATABASE_URL=postgres://postgres@localhost/linkanywhere
-- export DJANGO_SECRET=`openssl rand -base64 32`
+- export DATABASE_URL=postgres:///linkanywhere
+- export DJANGO_SECRET_KEY=`openssl rand -base64 32`
 - psql -c 'CREATE DATABASE "linkanywhere";' -U postgres
 install:
-  - "pip install -r requirements/test.txt"
+  - "pip install -r backend/requirements/test.txt codecov"
 script:
-  - coverage run --source=linkanywhere --omit='*tests*,*migrations*,*admin*,*wsgi*' -m py.test -v --tb=native
-after_success:
-  - coveralls
+  - "cd backend && coverage run --source=linkanywhere --omit='*tests*,*migrations*,*admin*,*wsgi*' -m py.test -v --tb=native"
+after_success: codecov
 
 notifications:
   email: false
-
-# This reportedly works around an issue downloading packages from pypi on
-# travis. Consider removing this after the underlying issue is fixed.
-# https://github.com/travis-ci/travis-ci/issues/2389
-sudo: false
 
 matrix:
   fast_finish: true
