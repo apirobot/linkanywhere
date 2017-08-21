@@ -9,5 +9,8 @@ factory-boy==2.9.2
 
 django-debug-toolbar==1.8
 
+# Documentation Generator
+django-rest-swagger==2.1.2
+
 # improved REPL
 ipdb==0.10.3

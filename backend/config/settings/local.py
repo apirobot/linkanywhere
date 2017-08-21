@@ -59,6 +59,10 @@ DEBUG_TOOLBAR_CONFIG = {
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ['django_extensions', ]
 
+# DJANGO REST SWAGGER
+# ------------------------------------------------------------------------------
+INSTALLED_APPS += ['rest_framework_swagger', ]
+
 # TESTING
 # ------------------------------------------------------------------------------
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
