@@ -11,7 +11,7 @@ pytestmark = pytest.mark.django_db
 
 
 def test_add_and_remove_like():
-    user = f.UserFactory.create()
+    user = f.UserFactory()
     obj = LikeModel(text='some text')
     eq_(Like.objects.count(), 0)
 
@@ -26,7 +26,7 @@ def test_add_and_remove_like():
 
 
 def test_get_liked(client):
-    user_1 = f.UserFactory.create()
+    user_1 = f.UserFactory()
     f.LikeLinkFactory(user=user_1)
     f.LikeLinkFactory(user=user_1)
 

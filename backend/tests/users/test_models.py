@@ -6,6 +6,8 @@ from .. import factories as f
 pytestmark = pytest.mark.django_db
 
 
-def test_user__str__():
-    user = f.UserFactory.create()
-    eq_(user.__str__(), user.username)
+class TestUserModel:
+
+    def test__str__(self):
+        user = f.UserFactory.create()
+        eq_(user.__str__(), user.username)
