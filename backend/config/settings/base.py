@@ -89,7 +89,7 @@ MIDDLEWARE = [
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'linkanywhere.apps.contrib.sites.migrations'
+    'sites': 'linkanywhere.contrib.sites.migrations'
 }
 
 # DEBUG
