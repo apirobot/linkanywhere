@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     'django_filters',                  # django filters
     'behaviors.apps.BehaviorsConfig',  # django behaviors
     'corsheaders',                     # cross-origin resource sharing
+    'djoser',                          # rest authentication
 ]
 
 # Apps specific for this project go here.
@@ -284,6 +285,12 @@ REST_FRAMEWORK = {
 # ------------------------------------------------------------------------------
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1)
+}
+
+# DJOSER
+# ------------------------------------------------------------------------------
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
 }
 
 # DJANGO CORS HEADERS
