@@ -3,8 +3,6 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from linkanywhere.apps.users.views import FacebookLogin, GoogleLogin, VKLogin
-
 # Register API
 apipatterns = [
     url(r'^', include('linkanywhere.apps.categories.urls')),
@@ -16,12 +14,6 @@ apipatterns = [
 urlpatterns = [
 
     url(r'^api/v1/', include((apipatterns, 'api'), namespace='api')),
-
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    url(r'^rest-auth/facebook/$', FacebookLogin.as_view(), name='fb-login'),
-    url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='google-login'),
-    url(r'^rest-auth/vk/$', VKLogin.as_view(), name='vk-login'),
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),

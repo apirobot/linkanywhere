@@ -47,17 +47,9 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',                  # utilities for rest apis
     'rest_framework.authtoken',        # token authentication
-    'rest_auth',                       # rest authentication
-    'rest_auth.registration',          # rest registration
     'django_filters',                  # django filters
     'behaviors.apps.BehaviorsConfig',  # django behaviors
     'corsheaders',                     # cross-origin resource sharing
-    'allauth',                         # allauth
-    'allauth.account',                 # allauth
-    'allauth.socialaccount',           # allauth social
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.vk',
 ]
 
 # Apps specific for this project go here.
