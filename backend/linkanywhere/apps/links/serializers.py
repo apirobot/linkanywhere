@@ -14,6 +14,8 @@ class LinkSerializer(serializers.ModelSerializer):
     )
     tags = TagRelatedField(many=True, required=False)
 
+    url_domain = serializers.SerializerMethodField()
+
     class Meta:
         model = Link
         fields = (
@@ -21,6 +23,7 @@ class LinkSerializer(serializers.ModelSerializer):
             'owner',
             'title',
             'url',
+            'url_domain',
             'description',
             'category',
             'tags',
@@ -28,6 +31,9 @@ class LinkSerializer(serializers.ModelSerializer):
             'created',
             'modified',
         )
+
+    def get_url_domain(self, obj):
+        return obj.get_url_domain()
 
 
 class PublicationStatusSerializer(serializers.ModelSerializer):

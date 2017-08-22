@@ -48,6 +48,15 @@ class TestLinkModel:
             link_1.total_likes
             likes_mock.count.assert_called()
 
+    def test_get_url_domain(self):
+        link_1 = f.LinkFactory(url='http://stackoverflow.com/questions/17/blah-blah')
+        link_2 = f.LinkFactory(url='http://www.google.com/blah-blah')
+        link_3 = f.LinkFactory(url='http://news.cnn.com/blah-blah')
+
+        eq_(link_1.get_url_domain(), 'stackoverflow.com')
+        eq_(link_2.get_url_domain(), 'google.com')
+        eq_(link_3.get_url_domain(), 'cnn.com')
+
     def test_published_and_draft_statuses(self):
         f.LinkFactory(publication_status=DRAFT)
         f.LinkFactory(publication_status=DRAFT)

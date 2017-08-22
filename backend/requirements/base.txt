@@ -42,6 +42,9 @@ psycopg2==2.7.3
 # Unicode slugification
 awesome-slugify==1.6.5
 
+# URL manipulation
+tldextract==2.1.0
+
 # Time zones support
 pytz==2017.2
 

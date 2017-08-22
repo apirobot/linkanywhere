@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.translation import ugettext as _
 
 from behaviors.behaviors import Published, Timestamped
+import tldextract
 
 from linkanywhere.apps.likes.models import Like
 from .constants import DRAFT, PUBLISHED
@@ -44,3 +45,10 @@ class Link(Published, Timestamped, models.Model):
     @property
     def total_likes(self):
         return self.likes.count()
+
+    def get_url_domain(self):
+        """
+        Extract root domain and top-level domain from URL.
+        """
+        ext = tldextract.extract(self.url)
+        return '{}.{}'.format(ext.domain, ext.suffix)
