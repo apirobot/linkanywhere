@@ -35,10 +35,22 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
     def get_liked_links(self, obj):
-        return LinkSerializer(get_liked(Link, obj), many=True).data
+        return LinkSerializer(
+            get_liked(Link, obj),
+            many=True,
+            context=self.context
+        ).data
 
     def get_draft_links(self, obj):
-        return LinkSerializer(obj.links.draft(), many=True).data
+        return LinkSerializer(
+            obj.links.draft(),
+            many=True,
+            context=self.context
+        ).data
 
     def get_published_links(self, obj):
-        return LinkSerializer(obj.links.published(), many=True).data
+        return LinkSerializer(
+            obj.links.published(),
+            many=True,
+            context=self.context
+        ).data
