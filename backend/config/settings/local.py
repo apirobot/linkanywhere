@@ -62,6 +62,10 @@ INSTALLED_APPS += ['django_extensions', ]
 # DJANGO REST SWAGGER
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ['rest_framework_swagger', ]
+if DEBUG:
+    # necessary for authentication in docs
+    LOGIN_URL = 'rest_framework:login'
+    LOGOUT_URL = 'rest_framework:logout'
 
 # TESTING
 # ------------------------------------------------------------------------------
