@@ -24,6 +24,7 @@ djangorestframework==3.6.3
 django-filter==1.0.4
 
 # Authentication
+djangorestframework-jwt==1.11.0
 
 # Cross-origin resource sharing
 django-cors-headers==2.1.0

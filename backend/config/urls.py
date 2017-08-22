@@ -5,6 +5,7 @@ from django.contrib import admin
 
 # Register API
 apipatterns = [
+    url(r'^', include('linkanywhere.apps.authentication.urls')),
     url(r'^', include('linkanywhere.apps.categories.urls')),
     url(r'^', include('linkanywhere.apps.links.urls')),
     url(r'^', include('linkanywhere.apps.tags.urls')),
