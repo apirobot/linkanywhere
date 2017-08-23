@@ -38,7 +38,10 @@ class LinkViewSet(LikedMixin,
         if serializer.is_valid():
             link.publication_status = serializer.data['publication_status']
             link.save()
-            return Response({'status': 'publication status changed'})
+            return Response({
+                'status': 'publication status has changed to {}'.format(
+                    link.get_publication_status_display())
+            })
 
         else:
             return Response(serializer.errors,

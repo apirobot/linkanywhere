@@ -51,3 +51,4 @@ class PublicationStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
         fields = ('publication_status', )
+        extra_kwargs = {'publication_status': {'required': True}}

@@ -3,22 +3,15 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
-from django.utils.translation import ugettext as _
 
 from behaviors.behaviors import Published, Timestamped
 import tldextract
 
 from linkanywhere.apps.likes.models import Like
-from .constants import DRAFT, PUBLISHED
+from .constants import PUBLICATION_STATUS_CHOICES, DRAFT
 
 
 class Link(Published, Timestamped, models.Model):
-
-    PUBLICATION_STATUS_CHOICES = (
-        (DRAFT, _('draft')),
-        (PUBLISHED, _('published')),
-    )
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE,

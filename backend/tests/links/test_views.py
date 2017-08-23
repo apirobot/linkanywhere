@@ -161,11 +161,12 @@ class TestLinkViewSet:
     # Update
     ############################
 
-    @pytest.mark.parametrize('publication_status', [
-        PUBLISHED,
-        DRAFT
+    @pytest.mark.parametrize('publication_status, readable_publication_status', [
+        (PUBLISHED, 'published'),
+        (DRAFT, 'draft')
     ])
-    def test_change_publication_status_of_a_link(self, publication_status, client, admin_client):
+    def test_change_publication_status_of_a_link(self, publication_status, readable_publication_status,
+                                                 client, admin_client):
         user_1 = f.UserFactory()
         link_1 = f.LinkFactory(publication_status=publication_status)
         link_1_id = link_1.id
@@ -181,8 +182,16 @@ class TestLinkViewSet:
 
         response = admin_client.post(url, data)
         eq_(response.status_code, status.HTTP_200_OK)
-        eq_(response.data['status'], 'publication status changed')
+        eq_(response.data['status'], 'publication status has changed to ' + readable_publication_status)
         eq_(Link.objects.get(id=link_1_id).publication_status, publication_status)
+
+    def test_publication_status_is_required(self, admin_client):
+        link_1 = f.LinkFactory()
+        url = reverse('api:link-change-publication-status',
+                      kwargs={'pk': link_1.id})
+
+        response = admin_client.post(url)
+        eq_(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     ############################
     # Delete
