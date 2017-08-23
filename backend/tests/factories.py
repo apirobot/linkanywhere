@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 
 import factory
 
-from linkanywhere.apps.links.constants import PUBLISHED
+from linkanywhere.apps.base.constants import PUBLISHED
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):

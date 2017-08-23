@@ -4,11 +4,11 @@ from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 
-from behaviors.behaviors import Published, Timestamped
+from behaviors.behaviors import Timestamped
 import tldextract
 
+from linkanywhere.apps.base.behaviors import Published
 from linkanywhere.apps.likes.models import Like
-from .constants import PUBLICATION_STATUS_CHOICES, DRAFT
 
 
 class Link(Published, Timestamped, models.Model):
@@ -26,10 +26,6 @@ class Link(Published, Timestamped, models.Model):
     )
     tags = models.ManyToManyField(
         'tags.Tag', related_name='links'
-    )
-    publication_status = models.CharField(
-        max_length=1,
-        choices=PUBLICATION_STATUS_CHOICES, default=DRAFT
     )
 
     def __str__(self):

@@ -4,8 +4,6 @@ import pytest
 from nose.tools import eq_
 from django_nose.tools import assert_queryset_equal
 
-from linkanywhere.apps.links.constants import DRAFT, PUBLISHED
-from linkanywhere.apps.links.models import Link
 from .. import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -56,11 +54,3 @@ class TestLinkModel:
         eq_(link_1.get_url_domain(), 'stackoverflow.com')
         eq_(link_2.get_url_domain(), 'google.com')
         eq_(link_3.get_url_domain(), 'cnn.com')
-
-    def test_published_and_draft_statuses(self):
-        f.LinkFactory(publication_status=DRAFT)
-        f.LinkFactory(publication_status=DRAFT)
-        f.LinkFactory(publication_status=PUBLISHED)
-
-        eq_(Link.objects.published().count(), 1)
-        eq_(Link.objects.draft().count(), 2)

@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from linkanywhere.apps.base.behaviors import Published
+
 
 class TestModel(models.Model):
     """
@@ -20,3 +22,7 @@ class BasicModel(TestModel):
 
 class LikeModel(TestModel):
     text = models.CharField(max_length=100)
+
+
+class PublishedModel(Published, TestModel):
+    pass

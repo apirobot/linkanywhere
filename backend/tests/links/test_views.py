@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 
 from rest_framework import status
 
-from linkanywhere.apps.links.constants import DRAFT, PUBLISHED
+from linkanywhere.apps.base.constants import DRAFT, PUBLISHED
 from linkanywhere.apps.links.models import Link
 from .. import factories as f
 
