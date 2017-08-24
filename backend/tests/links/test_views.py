@@ -81,14 +81,14 @@ class TestLinkViewSet:
     ############################
 
     def test_list_links(self, client):
-        link_1 = f.LinkFactory()
         f.LinkFactory()
+        link_2 = f.LinkFactory()
         url = reverse('api:link-list')
 
         response = client.get(url)
         eq_(response.status_code, status.HTTP_200_OK)
         eq_(len(response.data['results']), 2)
-        eq_(response.data['results'][0]['id'], str(link_1.id))
+        eq_(response.data['results'][0]['id'], str(link_2.id))
 
     def test_list_only_published_links(self, client):
         f.LinkFactory(publication_status=DRAFT)

@@ -28,6 +28,9 @@ class Link(Published, Timestamped, models.Model):
         'tags.Tag', related_name='links'
     )
 
+    class Meta:
+        ordering = ('-publication_date', '-created', 'title')
+
     def __str__(self):
         return '{0}: {1}'.format(self.title, self.url)
 
