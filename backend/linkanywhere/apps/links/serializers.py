@@ -31,6 +31,7 @@ class LinkSerializer(serializers.ModelSerializer):
             'tags',
             'is_fan',
             'total_likes',
+            'publication_date',
             'created',
             'modified',
         )

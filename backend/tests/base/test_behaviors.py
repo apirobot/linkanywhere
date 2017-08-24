@@ -1,5 +1,9 @@
+import datetime
+
+from freezegun import freeze_time
+from nose.tools import assert_almost_equal, eq_, ok_
 import pytest
-from nose.tools import eq_, ok_
+import pytz
 
 from linkanywhere.apps.base.constants import DRAFT, PUBLISHED
 from tests.models import PublishedModel
@@ -29,3 +33,18 @@ class TestPublishedBehavior:
 
         eq_(PublishedModel.objects.published().count(), 1)
         eq_(PublishedModel.objects.draft().count(), 2)
+
+    def test_changing_publication_date(self, published_instance):
+        eq_(published_instance.publication_date, None)
+
+        first, second, third = (
+            datetime.datetime(2012, 1, 14, 3, 21, 34, tzinfo=pytz.utc),
+            datetime.datetime(2013, 1, 14, 3, 21, 34, tzinfo=pytz.utc),
+            datetime.datetime(2014, 1, 14, 3, 21, 34, tzinfo=pytz.utc))
+
+        for time, status in zip((first, second, third),
+                                (PUBLISHED, DRAFT, PUBLISHED)):
+            with freeze_time(time):
+                published_instance.publication_status = status
+                published_instance.save()
+                eq_(published_instance.publication_date, first)

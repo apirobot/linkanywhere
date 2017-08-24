@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from behaviors.querysets import PublishedQuerySet
@@ -13,12 +14,20 @@ class Published(models.Model):
         choices=PUBLICATION_STATUS_CHOICES,
         default=DRAFT
     )
+    publication_date = models.DateTimeField(
+        _('publication date'), null=True, blank=True
+    )
 
     objects = PublishedQuerySet.as_manager()
     publications = PublishedQuerySet.as_manager()
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        if self.publication_date is None and self.is_published:
+            self.publication_date = timezone.now()
+        super().save(*args, **kwargs)
 
     @property
     def is_draft(self):
